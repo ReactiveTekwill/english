@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!--
+    Minimal, card-based single page for an English homework blog.
+    Audience: teens (17–18). Tone: enthusiastic, clear, serious.
+    Structure: short text, information packed into cards & simple schemes.
+    All-in-one file: HTML + CSS + JS. Fully responsive. Light animation.
+  -->
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Your Life, Your Habits — Quick Guide</title>
+
+  <!-- Friendly, readable fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+
+  <style>
+    /* ===== Base / Theme ===== */
+    :root{
+      --bg: #f7f3ed;       /* warm beige */
+      --text: #1e2932;     /* dark slate */
+      --muted:#5b6670;
+      --blue:#1f7ae0;
+      --green:#28a87d;
+      --card:#ffffff;
+      --ring: rgba(31,122,224,.22);
+      --shadow: 0 12px 30px rgba(18, 32, 45, .10);
+      --radius: 16px;
+      --container: 1100px;
+    }
+    *,*::before,*::after{ box-sizing: border-box; }
+    html,body{ margin:0; padding:0; }
+    img{ max-width:100%; display:block; }
+    body{
+      font-family: "Inter", system-ui, -apple-system, Segoe UI, Roboto, Arial;
+      background:
+        radial-gradient(900px 600px at 10% -10%, rgba(31,122,224,.08), transparent 60%),
+        radial-gradient(1000px 700px at 100% 0%, rgba(40,168,125,.08), transparent 55%),
+        var(--bg);
+      color: var(--text);
+      line-height: 1.55;
+    }
+    .container{ width:min(92%, var(--container)); margin-inline:auto; }
+
+    /* ===== Hero ===== */
+    header{
+      padding: clamp(1.5rem, 3vw, 2.5rem) 0 0;
+    }
+    .eyebrow{
+      display:inline-flex; gap:.5rem; align-items:center;
+      background:#fff; padding:.5rem .8rem; border-radius:999px;
+      color: var(--blue); font-weight:700; box-shadow: var(--shadow);
+      border:1px solid #00000010;
+    }
+    h1{
+      font-family: "Playfair Display", Georgia, serif;
+      font-size: clamp(1.8rem, 3.2vw + .6rem, 3rem);
+      letter-spacing:-.4px; margin:.8rem 0 .4rem;
+      line-height:1.1;
+    }
+    .lead{
+      color: var(--muted);
+      font-size: clamp(1rem, .9vw + .8rem, 1.15rem);
+      max-width: 68ch;
+    }
+    .hero-media{
+      margin: 1rem 0 0;
+      border-radius: 20px; overflow: hidden; box-shadow: var(--shadow);
+      border:1px solid #00000012; aspect-ratio:16/9;
+    }
+
+    /* ===== Card Grid ===== */
+    .grid{
+      display:grid; gap:1rem; margin: clamp(1rem, 3vw, 2rem) 0;
+      grid-template-columns: 1fr;
+    }
+    @media(min-width:860px){ .grid{ grid-template-columns: repeat(12, 1fr); } }
+    .card{
+      background: var(--card);
+      border:1px solid #e7ecf2;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 1rem 1rem;
+    }
+    .card h3{
+      display:flex; align-items:center; gap:.6rem;
+      margin:.25rem 0 .35rem; font-size:1.05rem; letter-spacing:-.15px;
+    }
+    .kicker{ font-weight:800; color: var(--green); font-size:.8rem; letter-spacing:.3px; text-transform:uppercase; }
+
+    /* Layouts (schemes) */
+    .span-6{ grid-column: span 12; }         /* mobile default */
+    .span-4{ grid-column: span 12; }
+    .span-8{ grid-column: span 12; }
+    @media(min-width:860px){
+      .span-6{ grid-column: span 6; }
+      .span-4{ grid-column: span 4; }
+      .span-8{ grid-column: span 8; }
+    }
+
+    /* Simple list chips */
+    .chips{ display:flex; flex-wrap:wrap; gap:.5rem; margin-top:.4rem; }
+    .chip{
+      padding:.35rem .6rem; border-radius:999px;
+      background:#f3f7fb; border:1px solid #e5edf7; font-size:.9rem;
+    }
+
+    /* Progress bar (sleep priority) */
+    .bar{
+      height: 10px; background:#eef5ff; border-radius:999px; overflow:hidden; border:1px solid #dbe7fb;
+      margin:.4rem 0 .2rem;
+    }
+    .bar > span{
+      display:block; height:100%; width:80%; background: linear-gradient(90deg, var(--blue), var(--green));
+    }
+
+    /* Checklist */
+    .checklist{ display:grid; gap:.4rem; margin-top:.4rem; }
+    .checklist li{ list-style:none; display:flex; gap:.55rem; align-items:flex-start; }
+    .check{ font-weight:800; color: var(--green); }
+
+    /* CTA */
+    .cta{
+      background: linear-gradient(135deg, var(--blue), var(--green));
+      color:#fff; border-radius: var(--radius); padding:1rem 1.1rem;
+      border:1px solid #ffffff30;
+    }
+    .cta strong{ font-weight:800; }
+
+    /* Footer */
+    footer{ text-align:center; color: var(--muted); padding: 1.5rem 0 2.5rem; }
+
+    /* ===== Animation (fade-in) ===== */
+    .fade{ opacity:0; transform: translateY(12px); transition: opacity .6s ease, transform .6s ease; }
+    .seen{ opacity:1; transform: none; }
+    @media (prefers-reduced-motion: reduce){
+      .fade{ opacity:1; transform:none; transition:none; }
+    }
+  </style>
+</head>
+<body>
+  <!-- ================= HERO ================= -->
+  <header class="container">
+    <span class="eyebrow fade">✨ Teen Health, Real Habits</span>
+    <h1 class="fade">Your Life, Your Habits — A Quick Guide to a Healthier Mind & Body</h1>
+    <p class="lead fade">
+      School. Exams. Group chats. Expectations. Here’s the short version:
+      tiny smart habits can boost energy, focus, and mood—without a total life makeover.
+    </p>
+    <!-- High-quality placeholder from Unsplash -->
+    <figure class="hero-media fade" aria-label="Active, healthy lifestyle vibes">
+      <img src="https://images.unsplash.com/photo-1520975922329-4cd1664ea6a6?q=80&w=1600&auto=format&fit=crop" alt="Friends outdoors at golden hour">
+    </figure>
+  </header>
+
+  <!-- ================= CARDS / SCHEMES ================= -->
+  <main class="container">
+    <section class="grid">
+      <!-- WHY (short) -->
+      <article class="card span-6 fade">
+        <span class="kicker">Why it matters</span>
+        <h3>🎯 Better Brain, Better Days</h3>
+        <p>
+          Healthy habits = stronger focus, steadier mood, faster recovery from stress.
+          Think of them as upgrades for learning, memory, and confidence.
+        </p>
+        <div class="chips" aria-label="Benefits">
+          <span class="chip">Focus ↑</span>
+          <span class="chip">Mood steady</span>
+          <span class="chip">Energy stable</span>
+          <span class="chip">Stress ↓</span>
+        </div>
+      </article>
+
+      <!-- SOCIAL -->
+      <article class="card span-6 fade">
+        <span class="kicker">Foundations</span>
+        <h3>🤝 Tip 1 — Social Connections</h3>
+        <ul class="checklist" aria-label="Social checklist">
+          <li><span class="check">✔</span><span>Weekly check-in with a friend (walk & talk).</span></li>
+          <li><span class="check">✔</span><span>Join a club / study group—share the load.</span></li>
+          <li><span class="check">✔</span><span>Ask for help early; offer help often.</span></li>
+        </ul>
+      </article>
+
+      <!-- STRESS (micro-habits scheme) -->
+      <article class="card span-8 fade">
+        <span class="kicker">Calm Tools</span>
+        <h3>🧘 Tip 2 — Stress, Handled</h3>
+        <p style="margin:.2rem 0 .5rem">Three micro-habits you can start today:</p>
+        <div class="chips">
+          <span class="chip">Breath 4-2-6 × 3</span>
+          <span class="chip">50/10 focus cycles</span>
+          <span class="chip">2-min stretch</span>
+          <span class="chip">Hobby flow (music, art, code)</span>
+        </div>
+      </article>
+
+      <!-- SLEEP (progress emphasis) -->
+      <article class="card span-4 fade">
+        <span class="kicker">Non-negotiable</span>
+        <h3>🌙 Tip 3 — Sleep Fuels Grades</h3>
+        <p style="margin:.2rem 0">Target ~8 hours most nights.</p>
+        <div class="bar" aria-label="Sleep progress toward 8 hours"><span></span></div>
+        <ul class="checklist">
+          <li><span class="check">✔</span><span>Same bedtime & wake time.</span></li>
+          <li><span class="check">✔</span><span>Screens off 60 min before bed.</span></li>
+          <li><span class="check">✔</span><span>Phone parked across the room.</span></li>
+        </ul>
+      </article>
+
+      <!-- NUTRITION + ACTIVITY (quick plate & move schema) -->
+      <article class="card span-6 fade">
+        <span class="kicker">Daily Energy</span>
+        <h3>🥗🏃 Tip 4 — Food & Movement, Simplified</h3>
+        <p style="margin:.2rem 0">Build most meals like this:</p>
+        <div class="chips">
+          <span class="chip">Color (veg/fruit)</span>
+          <span class="chip">Protein</span>
+          <span class="chip">Slow carbs</span>
+          <span class="chip">Water</span>
+        </div>
+        <p style="margin:.6rem 0 .3rem">Move a little, daily:</p>
+        <div class="chips">
+          <span class="chip">Walk/Bike</span>
+          <span class="chip">Stairs</span>
+          <span class="chip">2 songs dance</span>
+          <span class="chip">15-min bodyweight</span>
+        </div>
+      </article>
+
+      <!-- CTA -->
+      <article class="card span-6 cta fade" role="region" aria-live="polite">
+        <h3>🚀 One Tiny Step This Week</h3>
+        <p style="margin:.4rem 0 0;">
+          Text a friend to plan a walk, try a 3-minute breathing reset before homework,
+          set a realistic bedtime, or add one green thing to your plate.
+          <strong>Small wins compound.</strong>
+        </p>
+      </article>
+    </section>
+  </main>
+
+  <footer class="fade">Created for an English class.</footer>
+
+  <script>
+    /* ========= Minimal fade-in on view using IntersectionObserver ========= */
+    (function(){
+      const items = document.querySelectorAll('.fade');
+      const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      if(reduced){
+        items.forEach(el => el.classList.add('seen'));
+        return;
+      }
+
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach(e => {
+          if(e.isIntersecting){
+            e.target.classList.add('seen');
+            io.unobserve(e.target);
+          }
+        });
+      }, { rootMargin: "0px 0px -10% 0px", threshold: 0.05 });
+
+      items.forEach(el => io.observe(el));
+    })();
+  </script>
+</body>
+</html>
