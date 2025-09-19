@@ -149,8 +149,10 @@
     </p>
     <!-- High-quality placeholder from Unsplash -->
     <figure class="hero-media fade" aria-label="Active, healthy lifestyle vibes">
-      <img src="https://images.unsplash.com/photo-1520975922329-4cd1664ea6a6?q=80&w=1600&auto=format&fit=crop" alt="Friends outdoors at golden hour">
-    </figure>
+  <img id="heroImg"
+       src="https://images.unsplash.com/photo-1520975922329-4cd1664ea6a6?q=80&w=1600&auto=format&fit=crop"
+       alt="Friends outdoors at golden hour">
+</figure>
   </header>
 
   <!-- ================= CARDS / SCHEMES ================= -->
@@ -242,7 +244,23 @@
   </main>
 
   <footer class="fade">Created for an English class.</footer>
-
+<script>
+  // dacă prima imagine nu se încarcă, încearcă următoarele
+  (function(){
+    const fallbacks = [
+      "https://images.unsplash.com/photo-1518609571773-39b7d303a86f?q=80&w=1600&auto=format&fit=crop",
+      "https://images.pexels.com/photos/1552249/pexels-photo-1552249.jpeg?auto=compress&cs=tinysrgb&w=1600",
+      "https://picsum.photos/1600/900?random=5"
+    ];
+    const img = document.getElementById("heroImg");
+    let i = 0;
+    img.addEventListener("error", () => {
+      if (i < fallbacks.length) {
+        img.src = fallbacks[i++];
+      }
+    }, { once:false });
+  })();
+</script>
   <script>
     /* ========= Minimal fade-in on view using IntersectionObserver ========= */
     (function(){
